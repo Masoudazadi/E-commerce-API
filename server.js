@@ -8,8 +8,7 @@ const corsOptions = {
   origin: 'https://exclusive-omega-woad.vercel.app', 
   credentials: true, 
 };
-app.use(cors());
-
+app.use(cors(corsOptions))
 // Rest of the packages
 const morgan = require("morgan") //HTTP request logger middleware
 const cookieParser = require("cookie-parser")
