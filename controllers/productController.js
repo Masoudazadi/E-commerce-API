@@ -5,7 +5,7 @@ const path = require("path")
 
 // ** ===================  CREATE PRODUCT  ===================
 const createProduct = async (req, res) => {
-  req.body.user = req.user.userId
+  req.body.user = req.user.id
   const product = await Product.create(req.body)
   res.status(StatusCodes.CREATED).json({ product })
 }
@@ -46,7 +46,6 @@ const deleteProduct = async (req, res) => {
   if (!product) {
     throw new CustomError.BadRequestError(`No product with the id ${productId}`)
   }
-  await product.remove() // this will trigger the pre remove hook
   res.status(StatusCodes.OK).json({ msg: "Success! Product removed" })
 }
 

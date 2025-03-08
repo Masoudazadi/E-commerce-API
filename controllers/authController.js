@@ -1,7 +1,7 @@
 const User = require("../models/userModel")
 const { StatusCodes } = require("http-status-codes")
 const CustomError = require("../errors")
-const { createTokenUser, attachCookiesToResponse } = require("../utils")
+const { createJWT } = require("../utils")
 
 // Register User
 const register = async (req, res) => {
@@ -15,9 +15,8 @@ const register = async (req, res) => {
   const role = isFirstAccount ? "admin" : "user"
   const user = await User.create({ name, email, password, role })
   // Create token user
-  const tokenUser = createTokenUser(user)
-  attachCookiesToResponse({ res, user: tokenUser })
-  res.status(StatusCodes.CREATED).json({ user: tokenUser })
+  const tokenUser = createJWT(user)
+  res.status(StatusCodes.CREATED).json({ user: user, token: tokenUser })
 }
 
 // Login User
@@ -28,15 +27,24 @@ const login = async (req, res) => {
   }
   const user = await User.findOne({ email })
   if (!user) {
-    throw CustomError.UnauthorizedError("No user found")
+    throw new CustomError.UnauthorizedError("No user found")
   }
   const isPasswordCorrect = await user.comparePassword(password)
   if (!isPasswordCorrect) {
-    throw new CustomError.UnauthenticatedError("Invalid Credentials")
+    throw new CustomError.UnauthenticatedError("password is incorrect")
   }
-  const tokenUser = createTokenUser(user)
-  attachCookiesToResponse({ res, user: tokenUser })
-  res.status(StatusCodes.OK).json({ user: tokenUser, msg: "Login successful!" })
+  const tokenUser = createJWT(user)
+  res.status(StatusCodes.OK).json({ token: tokenUser, msg: "Login successful!" })
+}
+
+
+// Get User
+const getUser = async (req, res) => {
+  const user=req.user
+  if (!user) {
+    throw CustomError.UnauthorizedError("No user found")
+  }
+  res.status(StatusCodes.OK).json({ user: user, msg: "Get user successful!" })
 }
 
 // Logout User
@@ -61,4 +69,5 @@ module.exports = {
   register,
   login,
   logout,
+  getUser
 }

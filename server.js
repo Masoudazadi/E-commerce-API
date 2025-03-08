@@ -1,8 +1,10 @@
 require("dotenv").config()
 require("express-async-errors")
+const cors = require('cors');
 
 const express = require("express")
 const app = express()
+app.use(cors());
 
 // Rest of the packages
 const morgan = require("morgan") //HTTP request logger middleware
@@ -53,7 +55,7 @@ const port = process.env.PORT || 5000
 const start = async () => {
   try {
     // Connect database
-    await connectDB(process.env.MONGO_URL)
+    await connectDB(process.env.MONGO_USER, process.env.MONGO_PASSWORD, process.env.MONGO_HOST, process.env.MONGO_PORT, process.env.MONGO_DB)
     app.listen(port, () =>
       console.log(`🚀 Server is listening on port ${port}...`)
     )
