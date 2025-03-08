@@ -4,6 +4,10 @@ const cors = require('cors');
 
 const express = require("express")
 const app = express()
+const corsOptions = {
+  origin: 'https://exclusive-omega-woad.vercel.app', 
+  credentials: true, 
+};
 app.use(cors());
 
 // Rest of the packages
