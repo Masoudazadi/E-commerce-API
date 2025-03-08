@@ -4,11 +4,8 @@ const cors = require('cors');
 
 const express = require("express")
 const app = express()
-const corsOptions = {
-  origin: 'https://exclusive-omega-woad.vercel.app', 
-  credentials: true, 
-};
-app.use(cors(corsOptions))
+app.use(cors());
+
 // Rest of the packages
 const morgan = require("morgan") //HTTP request logger middleware
 const cookieParser = require("cookie-parser")
