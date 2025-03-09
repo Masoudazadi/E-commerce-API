@@ -1,8 +1,23 @@
-const mongoose = require("mongoose")
+const { MongoClient } = require('mongodb')
 
-const connectDB = (user, password, host, port, dbName) => {
-  const url = `mongodb://${user}:${password}@${host}:${port}/${dbName}`
-  return mongoose.connect(url)
+const connectDB = async (mongoURI) => {
+  try {
+    const client = new MongoClient(mongoURI, {
+      useNewUrlParser: true,
+      useUnifiedTopology: true,
+    })
+
+    // اتصال به دیتابیس
+    await client.connect()
+    console.log("MongoDB connected")
+
+    // انتخاب دیتابیس
+    const db = client.db(process.env.MONGO_DB)
+    return db
+  } catch (error) {
+    console.error("MongoDB connection error:", error)
+    process.exit(1)
+  }
 }
 
 module.exports = connectDB
