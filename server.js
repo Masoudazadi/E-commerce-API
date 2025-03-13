@@ -54,15 +54,16 @@ app.use(errorHandlerMiddleware)
 const port = process.env.PORT || 5000
 const start = async () => {
   try {
-    // Connect database
-    await connectDB(process.env.MONGO_USER, process.env.MONGO_PASSWORD, process.env.MONGO_HOST, process.env.MONGO_PORT, process.env.MONGO_DB)
+    // Use a single MongoDB URI instead of multiple params
+    await connectDB();
     app.listen(port, () =>
       console.log(`🚀 Server is listening on port ${port}...`)
-    )
+    );
   } catch (error) {
-    console.log(error)
+    console.log(error);
   }
-}
+};
+
 
 start()
 module.exports = app;
