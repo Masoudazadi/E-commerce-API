@@ -4,6 +4,7 @@ const connectDB = async () => {
   console.log("🔧 MongoDB URI:", process.env.MONGO_URI);
   try {
     await mongoose.connect(process.env.MONGO_URI, {
+      dbName: "ecommerce",
       useNewUrlParser: true,
       useUnifiedTopology: true,
       serverSelectionTimeoutMS: 5000, // Timeout after 5s if not connected
