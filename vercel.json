@@ -6,10 +6,7 @@
       "use": "@vercel/node"
     }
   ],
-  "routes": [
-    {
-      "src": "/(.*)",
-      "dest": "server.js"
-    }
-  ]
+  "env": {
+    "MONGO_URI": "mongodb+srv://masoudazadi1995:EJdyXMpeipBVoUD4@mymongodb.trgmp.mongodb.net/mymongodb?retryWrites=true&w=majority&appName=mymongodb"
+  }
 }
