@@ -12,9 +12,14 @@ const createProduct = async (req, res) => {
 
 // ** ===================  GET ALL PRODUCTS  ===================
 const getAllProducts = async (req, res) => {
-  const product = await Product.find({})
-  res.status(StatusCodes.OK).json({ total_products: product.length, product })
+  try {
+    const products = await Product.find({});
+    res.status(200).json({ total_products: products.length, products });
+  } catch (error) {
+    res.status(500).json({ message: "Error fetching products", error: error.message });
+  }
 }
+
 
 // ** ===================  GET SINGLE PRODUCT  ===================
 const getSingleProduct = async (req, res) => {
